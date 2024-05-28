@@ -1,0 +1,30 @@
+﻿@page "/Locations/New"
+@using ADPasswordRotator.Frontend.Services
+@using ADPasswordRotator.Shared.Model
+
+@inject LocationService LocationService
+@inject NavigationManager NavigationManager
+
+<h3>New Location</h3>
+
+<EditForm Model="newLocation" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="name">Name</label>
+        <InputText id="name" class="form-control" @bind-Value="newLocation.Name" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add Location</button>
+</EditForm>
+
+@code {
+    private Location newLocation = new Location();
+
+    private async Task HandleValidSubmit()
+    {
+        await LocationService.Add(newLocation);
+        NavigationManager.NavigateTo("/Locations");
+    }
+}

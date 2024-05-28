@@ -1,0 +1,41 @@
+﻿@page "/Locations"
+@using ADPasswordRotator.Frontend.Services
+@using ADPasswordRotator.Shared.Model
+@inject LocationService LocationService
+
+<h3>Locations</h3>
+<a href="/New">New</a>
+
+@if (locations == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var location in locations)
+            {
+                <tr>
+                    <td>@location.Id</td>
+                    <td>@location.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IEnumerable<Location> locations;
+
+    protected override async Task OnInitializedAsync()
+    {
+        locations = await LocationService.Get();
+    }
+}
